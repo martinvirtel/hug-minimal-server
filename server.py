@@ -1,3 +1,8 @@
+"""
+minimal hug server
+
+"""
+
 import os
 import sys
 
@@ -25,4 +30,4 @@ def hello(age : int ,who=None) :
 
 
 if __name__=="__main__" :
-    hello.interface.cli()
+    hug.API(__name__,os.path.split(__file__)[1]).cli()
