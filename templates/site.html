@@ -1,0 +1,37 @@
+<html>
+<head>
+<link href="/static/styles.css" rel="stylesheet" >
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<script src="https://hypothes.is/embed.js" async></script>
+<meta charset="UTF-8">
+<title>{% block title %}
+{% endblock title %}</title>
+<!--<style>
+*{ font-family: Arial, Helvetica, sans-serif }
+.red { color: darkred; font-size: 150% }
+.dandelion { color: aqua }
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+th{
+    text-align: middle;
+} td {
+    padding: 5px;
+}
+
+</style>-->
+</head>
+<body>
+{% block body %}
+
+
+{% block content %}
+
+{% endblock content %}
+{% endblock body %}
+<footer>
+ <img src="/static/logo-dpa-newslab-RGB.jpg">
+</footer>
+</body>
+</html>

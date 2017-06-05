@@ -1,0 +1,61 @@
+{% extends "bootstrap.html" %}
+{% block title %}
+NEX-INDEX
+{% endblock title %}
+
+  {% block header %}
+    <li class="active"><a href="http://localhost:8000/nex/start">Overview</a></li>
+    <!--<li><a href="#">Previous Text</a></li>-->
+    <li><a href="http://localhost:8000/nex/{{next_dpa_id["random_dpa_id"]}}/all" target="_blank">Random Text</a></li>
+    <!--<li><a href="#">Next Text</a></li>-->
+    <li><a href="https://www.dpa.com/de/produkte-services/portale-apps-labs/newslab/" target="_blank">About dpa-newslab</a></li>
+  {% endblock header %}
+
+  {% block caption %}
+    <h3>Overview NER-texts</h3>
+  {% endblock caption %}
+
+  {% block content %}
+  <table width="100%" cellspacing="2" cellpadding="0" border="1" bgcolor="aliceblue">
+  <!--align="center"-->
+  <tbody>
+    <tr>
+      <td style="padding:20px"><strong>Title</strong></td>
+      <td style="padding:20px"><strong>Date</strong></td>
+      <td style="padding:20px"><strong>Ressort</strong></td>
+      <td style="padding:20px"><strong>Pipette</strong></td>
+    </tr>
+  </tbody>
+  <tbody>
+  {% for item in output_index ["index_list"] %}
+  <tr>
+    <td style="padding:6px","text-align: center;"><a
+    href="{{item["link"]}}" 
+    target="_blank">{{item["title"]}}
+    </a></td>
+    <td style="padding:6px","text-align: center;">
+    {{item["date"]}}
+    </td>
+    <td style="padding:6px","text-align: center;">
+    {{item["ressort"]}}
+    </td>
+    <td style="padding:6px","text-align: center;"><a
+    href="{{item["link"]}}" 
+    target="_blank">LINK
+    </a></td>
+  </tr>
+  {% endfor %}
+  </tbody>
+  </body>
+
+<nav aria-label="...">
+  <ul class="pager">
+    <li><a href="start?{{pre_position}}">&lt;&lt; Previous</a></li>
+    <li><a>page&nbsp;{{page}}&nbsp;/&nbsp;{{pages}}</a></li>
+    <li><a href="start?{{post_position}}">Next &gt;&gt;</a></li>
+  </ul>
+</nav>
+{% endblock content %}
+{% block footer %}
+&copy; Alex Gaus &amp; dpa-newslab
+{% endblock footer %}

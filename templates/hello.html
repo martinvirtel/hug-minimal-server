@@ -1,0 +1,18 @@
+{% extends "site.html" %}
+{% block title %}
+   {{ who }} is {{ age }} years old.
+{% endblock title %}
+{% block content %}
+<p class="red">Hello {{ who }} ! You are {{ age }} years old!</p>
+
+{% for item in liste %}
+   <p>Name {{ item.name }} <span class="red">rot</a></p>
+{% endfor %}
+
+{% for item in l %}
+    <p>Test text {{ item }}</p>
+{% endfor %}
+
+<img src="/static/smiley.png">
+{% endblock content %}
+
