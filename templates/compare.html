@@ -4,10 +4,30 @@
 NEX for {{ dpa_id }}
 {% endblock title %}
 {% block header %}
-            <li><a href="http://localhost:8000/nex/start">Overview</a></li>
-<li class="active"><a href="#">Compare Text</a></li>
-            <li><a href="http://localhost:8000/nex/{{next_dpa_id["random_dpa_id"]}}/all">Random Text</a></li>
-            <li><a href="https://www.dpa.com/de/produkte-services/portale-apps-labs/newslab/" target="_blank">About dpa-newslab</a></li>
+            <li><a href="/nex/start">Overview</a></li>
+            <li class="active"><a href="#">Compare Text</a></li>
+            <li><a href="/nex/{{next_dpa_id["random_dpa_id"]}}/{{tool_code}}">Random Text</a></li>
+            <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Tool codes<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">
+                            Tool code is the last part
+                            of the URL after
+                            the dpa-id</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="all">/all = all tools</a></li>
+                        <li><a href="a">/a = ambiverse</a></li>
+                        <li><a href="d">/d = dandelion</a></li>
+                        <li><a href="t">/t = txtwerk</a></li>
+                        <li><a href="y">/y = aylien</a></li>
+                        <li><a href="t">/t = textrazor</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="ads">example: /ad = ambiverse + dandelion</a></li>
+                    </ul>
+                </li>
+                <li><a href="https://www.dpa.com/de/produkte-services/portale-apps-labs/newslab/" target="_blank">About dpa-newslab</a></li>
+
+            
+
 {% endblock header %}
 
 <!--<h3> The text for dpa-id {{dpa_id}} is:</h3>-->
@@ -17,27 +37,23 @@ NEX for {{ dpa_id }}
 <div style="text-align: center;"><a href="https://pipette.dpa-newslab.com/pipette/#/doc/{{dpa_id_link}}" target="_blank">{{dpa_id}}</a></div>
 <nav aria-label="...">
   <ul class="pager">
-    <li><a href="http://localhost:8000/nex/{{next_dpa_id["pre_dpa_id"]}}/all">&lt;&lt; Previous Text</a></li>
-    <li><a href="http://localhost:8000/nex/{{next_dpa_id["post_dpa_id"]}}/all">Next Text &gt;&gt;</a></li>
+    <li><a href="/nex/{{next_dpa_id["pre_dpa_id"]}}/{{tool_code}}">&lt;&lt; Previous Text</a></li>
+    <li><a href="/nex/{{next_dpa_id["post_dpa_id"]}}/{{tool_code}}">Next Text &gt;&gt;</a></li>
   </ul>
 </nav>
 {% endblock caption %}
 {% block content %}
 <div class="col-md-12">
     {% block content_h %}
+        <div class="row">
         {% for item in output_object %}
             <div class="{{column_class}}">
             <!--<th class="ner-header" style="width33%">-->
                 <h2>{{item["tool"]}}</h2>
-                <h3>Entities found: {{item["length"]}} ({{item["rate_entity"]}} words per entity)</h3>
-                <h3>Avg. confidence: {{item["avg_confidence"]}}</h3>
-            </div>
-        {% endfor %}
-        
-    {% endblock content_h %}
-    {% block content_c %}
-            {% for item in output_object %}
-                <div class="{{column_class}}">
+                <h3>Entities found: {{item["length"]}}</h3>
+                    <p>({{item["rate_entity"]}} words per entity)</p>
+                <p>Avg. confidence: {{item["avg_confidence"]}}</p>
+                <p>&nbsp;</p>
                         {% for row in item["text_list"] %}
                             {%- if row["status"]=="text" -%}
                                 {{row["text"]}}
@@ -50,7 +66,8 @@ NEX for {{ dpa_id }}
                 {% endfor %}
             <p>&nbsp;</p>
             </div>
-        {% endblock content_c %}
+        </div>
+      {% endblock content_h %}  
 </div>
 {% endblock content %}
 {% block footer %}

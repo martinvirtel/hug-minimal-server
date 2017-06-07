@@ -5,20 +5,20 @@ import random
 def get_next (dpa_id):
     #dpa_id = "urn:newsml:dpa.com:20090101:170221-99-370286v-3"
     dpa_id = dpa_id.replace("v-","/")
-    path_original = "/Users/alex/nex-analysis-server/hug-minimal-server"
-    path = "/Users/alex/nex-analysis"
-    os.chdir(path)
+    # path_original = "/Users/alex/nex-analysis-server/hug-minimal-server"
+    # path = "/Users/alex/nex-analysis"
+    # os.chdir(path)
     db='sqlite:///nex-analysis.db'
     database = dataset.connect(db)
-    os.chdir(path_original)
+    # os.chdir(path_original)
     next_dpa_id={}
-    print(dpa_id)
-    print(list(database.query("""
-                select 
-                rowid
-                from dpa_text
-                where dpa_id=:dpa_id
-                """,dpa_id=dpa_id)))
+    #print(dpa_id)
+    # #print(list(database.query("""
+    #             select 
+    #             rowid
+    #             from dpa_text
+    #             where dpa_id=:dpa_id
+    #             """,dpa_id=dpa_id)))
     dpa_id_id=(list(database.query("""
                 select 
                 rowid

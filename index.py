@@ -3,13 +3,13 @@ import html
 import dataset
 
 def index(start, limit):
-    path_original = "/Users/alex/nex-analysis-server/hug-minimal-server"
-    path = "/Users/alex/nex-analysis"
+    # path_original = "/Users/alex/nex-analysis-server/hug-minimal-server"
+    # path = "/Users/alex/nex-analysis"
 
-    os.chdir(path)
+    # os.chdir(path)
     db='sqlite:///nex-analysis.db'
     database = dataset.connect(db)
-    os.chdir(path_original)
+    # os.chdir(path_original)
     length=len(list(database.query("""
         select 
         dpa_id
@@ -37,7 +37,7 @@ def index(start, limit):
         index_dict={}
         dpa_id=item["dpa_id"].replace("/","v-")
         index_dict["dpa_id"]=dpa_id
-        link="http://localhost:8000/nex/%(dpa_id)s/all"%locals()
+        link="/nex/%(dpa_id)s/all"%locals()
         pipette="https://pipette.dpa-newslab.com/pipette/#/doc/%s"%dpa_id[:-3]
         index_dict["link"]=link
         index_dict["title"]=item["title"]

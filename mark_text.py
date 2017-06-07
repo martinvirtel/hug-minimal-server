@@ -5,12 +5,12 @@ import os
 def mark_text (text_output,tools):
     #text="Washington (dpa) - Donald Trumps Sprecher Sean Spicer will die viel kritisierte Äußerung des US-Präsidenten nicht zurücknehmen, wonach Medien die Feinde des Volkes seien. Der Präsident habe eine gesunden Respekt vor den Medien, sagte Spicer am Dienstag. «Wir haben eine freie Presse», fügte er hinzu, aber einige Medien würden absichtlich unkorrekt über Trumps Leistungen berichten. Der US-Präsident hatte am vergangenen Freitag getwittert, die «Fake News Medien» seien nicht sein Feind, sondern Feind des amerikanischen Volkes. Nach Ansicht vieler Kritiker auch von republikanischer Seite überschritt Trump damit eine Linie."
     output_object=[]
-    path_original = "/Users/alex/nex-analysis-server/hug-minimal-server"
-    path = "/Users/alex/nex-analysis"
-    os.chdir(path)
+    # path_original = "/Users/alex/nex-analysis-server/hug-minimal-server"
+    # path = "/Users/alex/nex-analysis"
+    # os.chdir(path)
     db='sqlite:///nex-analysis.db'
     database = dataset.connect(db)
-    os.chdir(path_original)
+    # os.chdir(path_original)
     text=text_output["text"]
     dpa_id=text_output["dpa_id"]
     dpa_id_id=list(database.query("""
@@ -32,12 +32,15 @@ def mark_text (text_output,tools):
             start,end,surface, confidence, entity_id 
             from found_entities  where 
             tool_id=:tool_id and dpa_id=:dpa_id_id
+            order by start asc
             """,tool_id=tool_id,dpa_id_id=dpa_id_id))
 
         length=len(entities)
+        #print(length)
         sum_confidence=0
         length_confidence=0
         word_count=len(text.split())
+        #print(word_count)
         try:
             rate_entity=round(word_count/length,1)
         except ZeroDivisionError:
@@ -75,8 +78,12 @@ def mark_text (text_output,tools):
                 color= "yellow"
             elif tool == tools[1]:
                 color = "lime"
+            elif tool == tools[2]:
+                color= "lightpink"
+            elif tool == tools[3]:
+                color= "PaleGoldenRod"
             else:
-                color = "lightpink"
+                color = "turquoise"
             try:
                 confidence=round(entities[x]["confidence"],3)
             except TypeError:
@@ -90,6 +97,7 @@ def mark_text (text_output,tools):
                 "color":color
                 })
             y=entities[x]["end"]
+        
         end=text[y:len(text)]
         text_list.append({"status":"text","text":end})
 
@@ -98,8 +106,8 @@ def mark_text (text_output,tools):
             avg_confidence=round(sum_confidence/length_confidence,3)
         except ZeroDivisionError:
             avg_confidence= "Error"
-        print(sum_confidence)
-        print(length_confidence)
+        #print(sum_confidence)
+        #print(length_confidence)
         input={
             "tool":tool,
             "avg_confidence":avg_confidence,

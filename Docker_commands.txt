@@ -1,0 +1,5 @@
+docker build -t nex_compare_server .
+
+docker run --name=nex_container --rm --publish 8001:8000 nex_compare_server
+
+gunicorn --reload --bind=0.0.0.0:8001 server_compare:__hug_wsgi__
