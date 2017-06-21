@@ -6,7 +6,9 @@ body {
     margin: 0 0 100px;
     bottom: 40px;
 }
-
+mark{
+    padding:0;
+}
 .ner-header {
     background-color:#f2f4f1;
     text-align: center;

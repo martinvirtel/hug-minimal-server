@@ -6,7 +6,7 @@ NEX for {{ dpa_id }}
 {% block header %}
             <li><a href="/nex/start">Overview</a></li>
             <li class="active"><a href="#">Compare Text</a></li>
-            <li><a href="/nex/{{next_dpa_id["random_dpa_id"]}}/{{tool_code}}">Random Text</a></li>
+            <li><a href="/nex/{{dpa_id}}/overlap/3">Overlap</a></li>
             <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Tool codes<span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="#">
@@ -23,6 +23,8 @@ NEX for {{ dpa_id }}
                         <li role="separator" class="divider"></li>
                         <li><a href="ads">example: /ad = ambiverse + dandelion</a></li>
                     </ul>
+                <li><a href="/nex/{{dpa_id}}/evaluation">Evaluation</a></li>
+                <li><a href="/nex/{{next_dpa_id["random_dpa_id"]}}/{{tool_code}}">Random Text</a></li>
                 </li>
                 <li><a href="https://www.dpa.com/de/produkte-services/portale-apps-labs/newslab/" target="_blank">About dpa-newslab</a></li>
 
@@ -52,14 +54,29 @@ NEX for {{ dpa_id }}
                 <h2>{{item["tool"]}}</h2>
                 <h3>Entities found: {{item["length"]}}</h3>
                     <p>({{item["rate_entity"]}} words per entity)</p>
-                <p>Avg. confidence: {{item["avg_confidence"]}}</p>
+                <!--<p>Avg. confidence: {{item["avg_confidence"]}}</p>-->
                 <p>&nbsp;</p>
                         {% for row in item["text_list"] %}
                             {%- if row["status"]=="text" -%}
                                 {{row["text"]}}
-                            {%- elif row["status"]=="entity" -%}
+                            {%- elif row["status"]=="entity+uri" -%}
                                 <mark><a class="tooltips" style="background-color:{{row["color"]}}" target="_blank" href="https://wikidata.org/wiki/{{row["uri"]}}"
-                                    >{{row["text"]}}<span>{{row["confidence"]}}, {{row["label"]}}</span></a></mark>
+                                    >{{row["text"]}}<span>
+                                        {%- if row["confidence"]=="No confidence found" -%}
+                                            {{row["confidence"]}}, {{row["label"]}}
+                                        {%- elif row["confidence"]>1 -%}
+                                            {{row["confidence"]}}⬆, {{row["label"]}}
+                                        {%- elif row["confidence"]>0 -%}
+                                            {{row["confidence"]}}⇧, {{row["label"]}}
+                                        {%- elif row["confidence"]<0 -%}
+                                            {{row["confidence"]}}⇩, {{row["label"]}}
+                                        {%- elif row["confidence"]<1 -%}
+                                            {{row["confidence"]}}⬇, {{row["label"]}}
+                                        {%- endif -%}
+                                        </span></a></mark>
+                            {%- elif row["status"]=="entity-uri" -%}
+                                <a class="tooltips" style="border: 4px solid {{row["color"]}}"> 
+                                {{row["text"]}}<span>{{row["confidence"]}}, {{row["label"]}}</span></a>
                             {%- endif -%}
                         {% endfor %}
                     </div>
@@ -71,5 +88,5 @@ NEX for {{ dpa_id }}
 </div>
 {% endblock content %}
 {% block footer %}
-&copy; Alex Gaus &amp; dpa-newslab
+&copy; <a style="color: white" href="https://github.com/gobitodic/hug-minimal-server" target="_blank">Alex Gaus</a>&nbsp;&amp;&nbsp;<a style="color: white" href="https://github.com/dpa-newslab/" target="_blank">dpa-newslab</a>
 {% endblock footer %}

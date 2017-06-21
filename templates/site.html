@@ -35,3 +35,30 @@ th{
 </footer>
 </body>
 </html>
+
+
+#### Versuch:
+
+{% extends "bootstrap.html" %}
+
+{% block content %}
+        {% for item in output_object %}
+            <span>{{token["text"]}}</span>
+          {%endfor%}
+{% endblock content %}
+ 
+     <!--{%for token in output_evaluation["text_dict"]%}
+      <span id="{{token["key"]}}">{{token["text"]}}</span>
+        <span>{{token["text"]}}</span>
+    {%endfor%}
+  </p>
+  <script>
+      word_data={ {{output_evaluation["output_dict"]}} }
+
+      
+      // word_data={ "w1" : { "dandelion" : { "wikidata" : "Q......", "confidence": "...", "category": "..." },
+      //                      "txtwerk" : { .....}
+      //                    },
+      //             "w3" : {} };
+  </script>-->
+

@@ -19,6 +19,9 @@ NEX-INDEX
   <tbody>
     <tr>
       <td style="padding:20px"><strong>Title</strong></td>
+      <!--<td style="padding:20px"><strong>Compare</strong></td>-->
+      <td style="padding:20px"><strong>Overlap</strong></td>
+       <td style="padding:20px"><strong>Evaluation</strong></td>
       <td style="padding:20px"><strong>Date</strong></td>
       <td style="padding:20px"><strong>Ressort</strong></td>
       <td style="padding:20px"><strong>Pipette</strong></td>
@@ -28,8 +31,20 @@ NEX-INDEX
   {% for item in output_index ["index_list"] %}
   <tr>
     <td style="padding:6px","text-align: center;"><a
-    href="{{item["link"]}}" 
+    href="/nex/{{item["dpa_id"]}}/all" 
     target="_blank">{{item["title"]}}
+    </a></td>
+    <!--<td style="padding:6px","text-align: center;"><a
+    href="/nex/{{item["dpa_id"]}}/all" 
+    target="_blank">COMPARE
+    </a></td>-->
+    <td style="padding:6px","text-align: center;"><a
+    href="/nex/{{item["dpa_id"]}}/overlap/3" 
+    target="_blank">OVERLAP
+    </a></td>
+     <td style="padding:6px","text-align: center;"><a
+    href="/nex/{{item["dpa_id"]}}/evaluation" 
+    target="_blank">EVALUATION
     </a></td>
     <td style="padding:6px","text-align: center;">
     {{item["date"]}}
@@ -63,5 +78,5 @@ NEX-INDEX
 </nav>
 
 {% block footer %}
-&copy; Alex Gaus &amp; dpa-newslab
+&copy; <a style="color: white" href="https://github.com/gobitodic/hug-minimal-server" target="_blank">Alex Gaus</a>&nbsp;&amp;&nbsp;<a style="color: white" href="https://github.com/dpa-newslab/" target="_blank">dpa-newslab</a>
 {% endblock footer %}

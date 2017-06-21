@@ -38,7 +38,11 @@ def index(start, limit):
         dpa_id=item["dpa_id"].replace("/","v-")
         index_dict["dpa_id"]=dpa_id
         link="/nex/%(dpa_id)s/all"%locals()
-        pipette="https://pipette.dpa-newslab.com/pipette/#/doc/%s"%dpa_id[:-3]
+        if dpa_id[-3:][0]=="v":
+            dpa_id_link=dpa_id[:-3]
+        elif dpa_id[-4:][0]=="v":
+            dpa_id_link=dpa_id[:-4]
+        pipette="https://pipette.dpa-newslab.com/pipette/#/doc/%s"%dpa_id_link
         index_dict["link"]=link
         index_dict["title"]=item["title"]
         index_dict["ressort"]=item["ressort"]

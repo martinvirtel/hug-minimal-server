@@ -3,3 +3,22 @@ docker build -t nex_compare_server .
 docker run --name=nex_container --rm --publish 8001:8000 nex_compare_server
 
 gunicorn --reload --bind=0.0.0.0:8001 server_compare:__hug_wsgi__
+
+
+### Restart Docker ###
+docker build -t nex_compare_server .
+docker tag nex_compare_server:latest 491576843636.dkr.ecr.eu-central-1.amazonaws.com/nex:live
+
+aws configure
+key
+key2
+eu-central-1
+json
+
+$(aws ecr get-login --no-include-email --region eu-central-1 --profile nex)
+
+docker push 491576843636.dkr.ecr.eu-central-1.amazonaws.com/nex:live
+
+hpa list-tasks
+
+hpa stop-task 

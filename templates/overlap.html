@@ -1,0 +1,70 @@
+{% extends "bootstrap.html" %}
+
+{% block title %}
+Overlap for {{dpa_id}}
+{% endblock title %}
+{% block header %}
+            <li><a href="/nex/start">Overview</a></li>
+            <li><a href="/nex/{{dpa_id}}/all">Compare Text</a></li>
+            <li class="active"><a href="#">Overlap</a></li>
+            <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Overlap values<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">
+                            Entity was found from at least</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="2">2</a></li>
+                        <li><a href="3">3</a></li>
+                        <li><a href="4">4</a></li>
+                        <li><a href="5">5</a></li>
+                        <li><a href="#">
+                            tools</a></li>
+                        <li role="separator" class="divider"></li>
+                    </ul>
+            <li><a href="/nex/{{dpa_id}}/evaluation">Evaluation</a></li>
+                </li>
+                <li><a href="/nex/{{next_dpa_id["random_dpa_id"]}}/overlap/{{value}}">Random Text</a></li>
+                <li><a href="https://www.dpa.com/de/produkte-services/portale-apps-labs/newslab/" target="_blank">About dpa-newslab</a></li>
+
+            
+
+{% endblock header %}
+
+
+{% block caption %}
+<h2 style="text-align: center;">{{output_overlap["title"]}} </h2>
+<div style="text-align: center;"><a href="https://pipette.dpa-newslab.com/pipette/#/doc/{{dpa_id_link}}" target="_blank">{{dpa_id}}</a></div>
+<h3 style="text-align: center;">Overlap Value: {{value}} <span style="font-size:60%"> Entity was found from at least {{value}} tools</span></h3>
+<h3 style="text-align: center;">Entities found: {{output_overlap["length"]}} <span style="font-size:60%">    ({{output_overlap["rate_entity"]}} words per entity)</span></h3>
+
+<nav aria-label="...">
+  <ul class="pager">
+    <li><a href="/nex/{{next_dpa_id["pre_dpa_id"]}}/overlap/{{value}}">&lt;&lt; Previous Text</a></li>
+    <li><a href="/nex/{{next_dpa_id["post_dpa_id"]}}/overlap/{{value}}">Next Text &gt;&gt;</a></li>
+  </ul>
+</nav>
+<div> <strong>dpa-keywords ("slugline"):</strong>
+    {% for keyword in slugline %}
+        <mark style="background-color:{{output_overlap["color"]}};border: 2px solid grey">{{keyword}}</mark><span>&nbsp;</span>
+    {% endfor %}
+</div>
+{% endblock caption %}
+
+{% block content_h %}
+<div class="col-md-10">
+    {% for item in output_overlap["text_list"] %}
+                            {%- if item["status"]=="text" -%}
+                                {{item["text"]}}
+                            {%- elif item["status"]=="entity" -%}
+                                <mark><a class="tooltips" style="background-color:{{output_overlap["color"]}}" target="_blank" href="https://wikidata.org/wiki/{{item["uri"]}}"
+                                    >{{item["text"]}}<span>{{item["label"]}}, found by:
+                                        {% for tool in item["tool"] %}
+                                        {{tool[0:2]}} 
+                                        {% endfor %}
+                                        </span></a></mark>
+                            {%- endif -%}
+    {% endfor %}
+</div>
+{% endblock content_h %}
+{% block footer %}
+&copy; <a style="color: white" href="https://github.com/gobitodic/hug-minimal-server" target="_blank">Alex Gaus</a>&nbsp;&amp;&nbsp;<a style="color: white" href="https://github.com/dpa-newslab/" target="_blank">dpa-newslab</a>
+{% endblock footer %}

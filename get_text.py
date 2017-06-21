@@ -18,8 +18,9 @@ def get_text (dpa_id):
     # os.chdir(path_original)
     try:
         #text=dpa_text.find_one(dpa_id=dpa_id)["text"]
-        text=list(database.query("select text from dpa_text  where dpa_id LIKE :dpa_id",dpa_id=dpa_id))[0]["text"]
-        title=list(database.query("select title from dpa_text  where dpa_id LIKE :dpa_id",dpa_id=dpa_id))[0]["title"]
+        results=list(database.query("select text,title from dpa_text  where dpa_id = :dpa_id limit 1",dpa_id=dpa_id))
+        text=results[0]["text"]
+        title=results[0]["title"]
         text_output={
             "text":text,
             "title":title,

@@ -1,6 +1,8 @@
 import sqlite3
 import dataset
 import os
+import statistics
+from statistics import StatisticsError
 
 def mark_text (text_output,tools):
     #text="Washington (dpa) - Donald Trumps Sprecher Sean Spicer will die viel kritisierte Äußerung des US-Präsidenten nicht zurücknehmen, wonach Medien die Feinde des Volkes seien. Der Präsident habe eine gesunden Respekt vor den Medien, sagte Spicer am Dienstag. «Wir haben eine freie Presse», fügte er hinzu, aber einige Medien würden absichtlich unkorrekt über Trumps Leistungen berichten. Der US-Präsident hatte am vergangenen Freitag getwittert, die «Fake News Medien» seien nicht sein Feind, sondern Feind des amerikanischen Volkes. Nach Ansicht vieler Kritiker auch von republikanischer Seite überschritt Trump damit eine Linie."
@@ -32,9 +34,20 @@ def mark_text (text_output,tools):
             start,end,surface, confidence, entity_id 
             from found_entities  where 
             tool_id=:tool_id and dpa_id=:dpa_id_id
-            order by start asc
             """,tool_id=tool_id,dpa_id_id=dpa_id_id))
-
+        confidence_list=[]
+        for entity_confidence in entities:
+                confidence_list.append(entity_confidence["confidence"])
+        if len(confidence_list)>0:
+            try:
+                mean=statistics.mean(confidence_list)
+                stdev=statistics.stdev(confidence_list)
+            except TypeError or StatisticsError:
+                mean=None
+                stdev=None
+        else:
+            mean=None
+            stdev=None
         length=len(entities)
         #print(length)
         sum_confidence=0
@@ -85,21 +98,33 @@ def mark_text (text_output,tools):
             else:
                 color = "turquoise"
             try:
-                confidence=round(entities[x]["confidence"],3)
+                confidence=round((entities[x]["confidence"]-mean)/stdev,3)
             except TypeError:
                 confidence = "No confidence found"
-            text_list.append({
-                "status":"entity",
-                "text":entity_element,
-                "uri":entities[x]["uri"],
-                "confidence":confidence,
-                "label":label,
-                "color":color
-                })
+            except ZeroDivisionError:
+                confidence = "No confidence found"
+            uri=entities[x]["uri"]
+            if uri != None:
+                text_list.append({
+                    "status":"entity+uri",
+                    "text":entity_element,
+                    "uri":uri,
+                    "confidence":confidence,
+                    "label":label,
+                    "color":color
+                    })
+            if uri == None:
+                text_list.append({
+                    "status":"entity-uri",
+                    "text":entity_element,
+                    "confidence":confidence,
+                    "label":label,
+                    "color":color
+                    })
             y=entities[x]["end"]
         
-        end=text[y:len(text)]
-        text_list.append({"status":"text","text":end})
+        end_text=text[y:len(text)]
+        text_list.append({"status":"text","text":end_text})
 
 
         try:

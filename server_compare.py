@@ -3,6 +3,7 @@ import sys
 
 from get_text import get_text
 from mark_text import mark_text
+from overlap import overlap
 import hug
 import jinja2
 from jinja2 import Markup
@@ -22,7 +23,7 @@ def static_dirs() :
 @hug.cli()
 def index(start : int = 0, limit : int=20):
     from index import index
-    output_index=index(start, limit,)
+    output_index=index(start, limit)
     pages=output_index["pages"]
     page=(int(start/20)+1)
     pre_position="start=%s&limit=20"%str(start-20)
@@ -38,7 +39,7 @@ def index(start : int = 0, limit : int=20):
 # count() group by 
 
 # dict(a="ambiverse",d="dandelion",t="txtwerk")
-@hug.get("/nex/{dpa_id}/{tool_code}",output=hug.output_format.html,examples="urn:newsml:dpa.com:20090101:170226-99-442102/2/")
+@hug.get("/nex/{dpa_id}/{tool_code}",output=hug.output_format.html,examples="/nex/urn:newsml:dpa.com:20090101:170226-99-442102/ad/")
 @hug.cli()
 def compare(dpa_id : str ,tool_code : str) :
     tools=[]
@@ -66,7 +67,10 @@ def compare(dpa_id : str ,tool_code : str) :
             except KeyError:
                 xxx="nothing"
     
-    dpa_id_link=dpa_id[:-3]
+    if dpa_id[-3:][0]=="v":
+        dpa_id_link=dpa_id[:-3]
+    elif dpa_id[-4:][0]=="v":
+        dpa_id_link=dpa_id[:-4]
     text_output=get_text(dpa_id)
     #print(text_output)
     l=["a","b","c"]
@@ -82,8 +86,38 @@ def compare(dpa_id : str ,tool_code : str) :
 # def index(start : int = 0, limit : int=20):
 #     return templates.get_template("try.html").render(**locals())
     
-    
-    
+@hug.get("/nex/{dpa_id}/overlap/{value}",output=hug.output_format.html,examples="/nex/urn:newsml:dpa.com:20090101:170526-99-612882v-2/overlap/3")
+@hug.cli()
+def overlap(dpa_id : str = "urn:newsml:dpa.com:20090101:170319-99-722478v-2", value : int=3):
+    if dpa_id[-3:][0]=="v":
+        dpa_id_link=dpa_id[:-3]
+    elif dpa_id[-4:][0]=="v":
+        dpa_id_link=dpa_id[:-4]
+    from overlap import overlap
+    output_overlap=overlap(dpa_id,value)
+    from get_next import get_next
+    next_dpa_id=get_next(dpa_id)
+    from get_slugline import get_slugline
+    slugline=get_slugline(dpa_id_link)
+    return templates.get_template("overlap.html").render(**locals())
+
+@hug.get("/nex/{dpa_id}/evaluation",output=hug.output_format.html,examples="/nex/urn:newsml:dpa.com:20090101:170526-99-612882v-2/evaluation")
+@hug.cli()
+def overlap(dpa_id : str = "urn:newsml:dpa.com:20090101:170319-99-722478v-2"):
+    if dpa_id[-3:][0]=="v":
+        dpa_id_link=dpa_id[:-3]
+    elif dpa_id[-4:][0]=="v":
+        dpa_id_link=dpa_id[:-4]
+    from evaluation import evaluation
+    output_evaluation=evaluation(dpa_id)
+    from get_next import get_next
+    next_dpa_id=get_next(dpa_id)
+    from get_slugline import get_slugline
+    slugline=get_slugline(dpa_id_link)
+    return templates.get_template("evaluation.html").render(**locals())
+
+
+
 if __name__=="__main__" :
     compare.interface.cli()
     index.interface.cli()

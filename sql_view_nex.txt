@@ -1,0 +1,42 @@
+select (found_entities.start || "_" || found_entities.end) as id,
+found_entities.start as start,
+found_entities.end as end,
+found_entities.confidence as confidence,
+tools.tool as tools,
+entity.label as label,
+entity.uri as uri,
+entity.extra as extra,
+dpa_text.dpa_id as dpa_id
+from
+ found_entities ,
+ tools,
+ entity,
+ dpa_text
+where
+	found_entities.tool_id=tools.rowid and
+	found_entities.dpa_id=dpa_text.rowid and
+	found_entities.entity_id=entity.rowid 
+order by found_entities.dpa_id, found_entities.start 
+limit 100
+
+
+
+.....
+
+
+select (found_entities.start || "_" || found_entities.end) as id,
+found_entities.start as start,
+found_entities.end as end,
+found_entities.confidence as confidence,
+tools.tool as tools,
+entity.label as label,
+entity.uri as uri,
+entity.extra as extra,
+dpa_text.dpa_id as dpa_id
+from
+ found_entities 
+ inner join  tools on found_entities.tool_id = tools.rowid
+ inner join entity on found_entities.entity_id = entity.rowid
+ inner join dpa_text on found_entities.dpa_id = dpa_text.rowid
+order by found_entities.dpa_id, found_entities.start 
+limit 100

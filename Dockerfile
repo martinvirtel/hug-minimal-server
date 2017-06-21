@@ -11,5 +11,4 @@ COPY . /app
 
 RUN pip install --no-cache-dir -r requirements.txt
 
-ENTRYPOINT ["gunicorn"]
-CMD ["--reload", "--bind=0.0.0.0:8000",  "server_compare:__hug_wsgi__" ]
+CMD ["waitress-serve", "--port=8000",  "server_compare:__hug_wsgi__"]
