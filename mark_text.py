@@ -16,33 +16,33 @@ def mark_text (text_output,tools):
     text=text_output["text"]
     dpa_id=text_output["dpa_id"]
     dpa_id_id=list(database.query("""
-        select 
+        select
         rowid
-        from dpa_text  where 
+        from dpa_text  where
         dpa_id=:dpa_id
         """,dpa_id=dpa_id))[0]["rowid"]
     for tool in tools:
-        
+
         tool_id=list(database.query("""
-            select 
+            select
             rowid
-            from tools where 
+            from tools where
             tool=:tool
             """,tool=tool))[0]["rowid"]
         entities=list(database.query("""
-            select 
-            start,end,surface, confidence, entity_id 
-            from found_entities  where 
+            select
+            start,end,surface, confidence, entity_id
+            from found_entities  where
             tool_id=:tool_id and dpa_id=:dpa_id_id
             """,tool_id=tool_id,dpa_id_id=dpa_id_id))
         confidence_list=[]
         for entity_confidence in entities:
                 confidence_list.append(entity_confidence["confidence"])
-        if len(confidence_list)>0:
+        if len(confidence_list)>1:
             try:
                 mean=statistics.mean(confidence_list)
                 stdev=statistics.stdev(confidence_list)
-            except TypeError or StatisticsError:
+            except (TypeError, StatisticsError):
                 mean=None
                 stdev=None
         else:
@@ -61,16 +61,16 @@ def mark_text (text_output,tools):
         for entity in entities:
             try:
                 sum_confidence=sum_confidence+float(entity["confidence"])
-                
+
             except TypeError:
                 length_confidence=length_confidence-1
             length_confidence=length_confidence+1
             entity_id=entity["entity_id"]
             information=list(database.query(
                 """
-                select 
-                uri,label,labelfromsurface, extra 
-                from entity  where 
+                select
+                uri,label,labelfromsurface, extra
+                from entity  where
                 rowid=:entity_id
                 """,entity_id=entity_id))[0]
             entity["uri"]=information["uri"]
@@ -122,7 +122,7 @@ def mark_text (text_output,tools):
                     "color":color
                     })
             y=entities[x]["end"]
-        
+
         end_text=text[y:len(text)]
         text_list.append({"status":"text","text":end_text})
 
@@ -140,7 +140,7 @@ def mark_text (text_output,tools):
             "text_list":text_list,
             "rate_entity":rate_entity
             }
-        output_object.append(input)           
+        output_object.append(input)
     return(output_object)
-        
+
 
