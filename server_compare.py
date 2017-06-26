@@ -121,6 +121,12 @@ def overlap(dpa_id : str = "urn:newsml:dpa.com:20090101:170319-99-722478v-2"):
     return templates.get_template("evaluation.html").render(**locals())
 
 
+if os.environ.get("HOME","").lower() == "/root" :
+    @hug.not_found()
+    def not_found_handler():
+        return "Page Not Found"
+
+
 
 if __name__=="__main__" :
     compare.interface.cli()
