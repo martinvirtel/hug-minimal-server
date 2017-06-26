@@ -9,11 +9,11 @@
 Evaluation for {{dpa_id}}
 {% endblock title %}
 {% block header %}
-            <li><a href="/nex/start">Overview</a></li>
-            <li><a href="/nex/{{dpa_id}}/all">Compare Text</a></li>
-            <li ><a href="/nex/{{dpa_id}}/overlap/3">Overlap</a></li>
-            <li class="active"><a href="/nex/{{dpa_id}}/evaluation">Evaluation</a></li>
-            <li><a href="/nex/{{next_dpa_id["random_dpa_id"]}}/evaluation">Random Text</a></li>
+            <li><a href="{{PREFIX}}/nex/start">Overview</a></li>
+            <li><a href="{{PREFIX}}/nex/{{dpa_id}}/all">Compare Text</a></li>
+            <li ><a href="{{PREFIX}}/nex/{{dpa_id}}/overlap/3">Overlap</a></li>
+            <li class="active"><a href="{{PREFIX}}/nex/{{dpa_id}}/evaluation">Evaluation</a></li>
+            <li><a href="{{PREFIX}}/nex/{{next_dpa_id["random_dpa_id"]}}/evaluation">Random Text</a></li>
             <li><a href="https://www.dpa.com/de/produkte-services/portale-apps-labs/newslab/" target="_blank">About dpa-newslab</a></li>
 
 {% endblock header %}
@@ -25,8 +25,8 @@ Evaluation for {{dpa_id}}
 
 <nav aria-label="...">
   <ul class="pager">
-    <li><a href="/nex/{{next_dpa_id["pre_dpa_id"]}}/evaluation">&lt;&lt; Previous Text</a></li>
-    <li><a href="/nex/{{next_dpa_id["post_dpa_id"]}}/evaluation">Next Text &gt;&gt;</a></li>
+    <li><a href="{{PREFIX}}/nex/{{next_dpa_id["pre_dpa_id"]}}/evaluation">&lt;&lt; Previous Text</a></li>
+    <li><a href="{{PREFIX}}/nex/{{next_dpa_id["post_dpa_id"]}}/evaluation">Next Text &gt;&gt;</a></li>
   </ul>
 </nav>
 {% endblock caption %}

@@ -10,16 +10,20 @@ from jinja2 import Markup
 
 _HERE=os.path.split(__file__)[0]
 
+PREFIX="/nex-server"
+
 templates=jinja2.Environment(loader=jinja2.FileSystemLoader(os.path.join(_HERE,"templates")))
 
+templates.globals=globals=dict(PREFIX=PREFIX)
 
+api=hug.http(prefixes=PREFIX)
 
-@hug.static("/static")
+@hug.static("{PREFIX}/static".format(**globals))
 def static_dirs() :
     return (os.path.join(_HERE,"static"),)
 
 
-@hug.get("/nex/start",output=hug.output_format.html,examples="nex/start?start=0&end=20")
+@api.get("/nex/start",output=hug.output_format.html,examples="nex/start?start=0&end=20")
 @hug.cli()
 def index(start : int = 0, limit : int=20):
     from index import index
@@ -33,13 +37,13 @@ def index(start : int = 0, limit : int=20):
     xy="urn:newsml:dpa.com:20090101:170307-99-561039/3"
     next_dpa_id=get_next(xy)
     return templates.get_template("index.html").render(**locals())
-    
+
 # def show_index(start: int = 0, search: str = "", order: str = "title") :
 #   --- datenbankabfrage sql: sort by .... ; "Blaettern" mit sql limit .....
-# count() group by 
+# count() group by
 
 # dict(a="ambiverse",d="dandelion",t="txtwerk")
-@hug.get("/nex/{dpa_id}/{tool_code}",output=hug.output_format.html,examples="/nex/urn:newsml:dpa.com:20090101:170226-99-442102/ad/")
+@api.get("/nex/{dpa_id}/{tool_code}",output=hug.output_format.html,examples="/nex/urn:newsml:dpa.com:20090101:170226-99-442102/ad/")
 @hug.cli()
 def compare(dpa_id : str ,tool_code : str) :
     tools=[]
@@ -66,7 +70,7 @@ def compare(dpa_id : str ,tool_code : str) :
                 tools.append(tool)
             except KeyError:
                 xxx="nothing"
-    
+
     if dpa_id[-3:][0]=="v":
         dpa_id_link=dpa_id[:-3]
     elif dpa_id[-4:][0]=="v":
@@ -85,8 +89,8 @@ def compare(dpa_id : str ,tool_code : str) :
 # @hug.cli()
 # def index(start : int = 0, limit : int=20):
 #     return templates.get_template("try.html").render(**locals())
-    
-@hug.get("/nex/{dpa_id}/overlap/{value}",output=hug.output_format.html,examples="/nex/urn:newsml:dpa.com:20090101:170526-99-612882v-2/overlap/3")
+
+@api.get("/nex/{dpa_id}/overlap/{value}",output=hug.output_format.html,examples="/nex/urn:newsml:dpa.com:20090101:170526-99-612882v-2/overlap/3")
 @hug.cli()
 def overlap(dpa_id : str = "urn:newsml:dpa.com:20090101:170319-99-722478v-2", value : int=3):
     if dpa_id[-3:][0]=="v":
@@ -101,7 +105,7 @@ def overlap(dpa_id : str = "urn:newsml:dpa.com:20090101:170319-99-722478v-2", va
     slugline=get_slugline(dpa_id_link)
     return templates.get_template("overlap.html").render(**locals())
 
-@hug.get("/nex/{dpa_id}/evaluation",output=hug.output_format.html,examples="/nex/urn:newsml:dpa.com:20090101:170526-99-612882v-2/evaluation")
+@api.get("/nex/{dpa_id}/evaluation",output=hug.output_format.html,examples="/nex/urn:newsml:dpa.com:20090101:170526-99-612882v-2/evaluation")
 @hug.cli()
 def overlap(dpa_id : str = "urn:newsml:dpa.com:20090101:170319-99-722478v-2"):
     if dpa_id[-3:][0]=="v":

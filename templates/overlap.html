@@ -4,8 +4,8 @@
 Overlap for {{dpa_id}}
 {% endblock title %}
 {% block header %}
-            <li><a href="/nex/start">Overview</a></li>
-            <li><a href="/nex/{{dpa_id}}/all">Compare Text</a></li>
+            <li><a href="{{PREFIX}}/nex/start">Overview</a></li>
+            <li><a href="{{PREFIX}}/nex/{{dpa_id}}/all">Compare Text</a></li>
             <li class="active"><a href="#">Overlap</a></li>
             <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Overlap values<span class="caret"></span></a>
                     <ul class="dropdown-menu">
@@ -20,9 +20,9 @@ Overlap for {{dpa_id}}
                             tools</a></li>
                         <li role="separator" class="divider"></li>
                     </ul>
-            <li><a href="/nex/{{dpa_id}}/evaluation">Evaluation</a></li>
+            <li><a href="{{PREFIX}}/nex/{{dpa_id}}/evaluation">Evaluation</a></li>
                 </li>
-                <li><a href="/nex/{{next_dpa_id["random_dpa_id"]}}/overlap/{{value}}">Random Text</a></li>
+                <li><a href="{{PREFIX}}/nex/{{next_dpa_id["random_dpa_id"]}}/overlap/{{value}}">Random Text</a></li>
                 <li><a href="https://www.dpa.com/de/produkte-services/portale-apps-labs/newslab/" target="_blank">About dpa-newslab</a></li>
 
             
@@ -38,15 +38,20 @@ Overlap for {{dpa_id}}
 
 <nav aria-label="...">
   <ul class="pager">
-    <li><a href="/nex/{{next_dpa_id["pre_dpa_id"]}}/overlap/{{value}}">&lt;&lt; Previous Text</a></li>
-    <li><a href="/nex/{{next_dpa_id["post_dpa_id"]}}/overlap/{{value}}">Next Text &gt;&gt;</a></li>
+    <li><a href="{{PREFIX}}/nex/{{next_dpa_id["pre_dpa_id"]}}/overlap/{{value}}">&lt;&lt; Previous Text</a></li>
+    <li><a href="{{PREFIX}}/nex/{{next_dpa_id["post_dpa_id"]}}/overlap/{{value}}">Next Text &gt;&gt;</a></li>
   </ul>
 </nav>
+{% if slugline %}
 <div> <strong>dpa-keywords ("slugline"):</strong>
+    {{ slugline|pprint }}
     {% for keyword in slugline %}
         <mark style="background-color:{{output_overlap["color"]}};border: 2px solid grey">{{keyword}}</mark><span>&nbsp;</span>
     {% endfor %}
 </div>
+{% else %}
+<div> <span style="font-size: small"> no slugline </span></div>
+{% endif %}
 {% endblock caption %}
 
 {% block content_h %}

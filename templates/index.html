@@ -4,9 +4,9 @@ NEX-INDEX
 {% endblock title %}
 
   {% block header %}
-    <li class="active"><a href="/nex/start">Overview</a></li>
+    <li class="active"><a href="{{PREFIX}}/nex/start">Overview</a></li>
     <!--<li><a href="#">Previous Text</a></li>-->
-    <li><a href="/nex/{{next_dpa_id["random_dpa_id"]}}/all" target="_blank">Random Text</a></li>
+    <li><a href="{{PREFIX}}/nex/{{next_dpa_id["random_dpa_id"]}}/all" target="_blank">Random Text</a></li>
     <!--<li><a href="#">Next Text</a></li>-->
     <li><a href="https://www.dpa.com/de/produkte-services/portale-apps-labs/newslab/" target="_blank">About dpa-newslab</a></li>
   {% endblock header %}
@@ -31,19 +31,19 @@ NEX-INDEX
   {% for item in output_index ["index_list"] %}
   <tr>
     <td style="padding:6px","text-align: center;"><a
-    href="/nex/{{item["dpa_id"]}}/all" 
+    href="{{PREFIX}}/nex/{{item["dpa_id"]}}/all" 
     target="_blank">{{item["title"]}}
     </a></td>
     <!--<td style="padding:6px","text-align: center;"><a
-    href="/nex/{{item["dpa_id"]}}/all" 
+    href="{{PREFIX}}/nex/{{item["dpa_id"]}}/all" 
     target="_blank">COMPARE
     </a></td>-->
     <td style="padding:6px","text-align: center;"><a
-    href="/nex/{{item["dpa_id"]}}/overlap/3" 
+    href="{{PREFIX}}/nex/{{item["dpa_id"]}}/overlap/3" 
     target="_blank">OVERLAP
     </a></td>
      <td style="padding:6px","text-align: center;"><a
-    href="/nex/{{item["dpa_id"]}}/evaluation" 
+    href="{{PREFIX}}/nex/{{item["dpa_id"]}}/evaluation" 
     target="_blank">EVALUATION
     </a></td>
     <td style="padding:6px","text-align: center;">
