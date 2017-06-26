@@ -1,6 +1,9 @@
 SHELL := /bin/bash
 
 
+deploy: docker-build-live docker-push hpa-restart
+
+
 docker-build-live: 
 	echo Build $$(date +%Y%m%d%H%M%S) >static/build.txt
 	docker build -t nex:live .
