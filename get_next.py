@@ -2,6 +2,7 @@ import os
 import dataset
 import random
 
+
 def get_next (dpa_id):
     #dpa_id = "urn:newsml:dpa.com:20090101:170221-99-370286v-3"
     dpa_id = dpa_id.replace("v-","/")
