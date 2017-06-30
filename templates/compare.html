@@ -35,7 +35,7 @@ NEX for {{ dpa_id }}
 <!--<h3> The text for dpa-id {{dpa_id}} is:</h3>-->
 
 {% block caption %}
-<h3 style="text-align: center;">{{text_output["title"]}} </h3>
+<h3 style="text-align: center;">{{text_output["title"]}}/h3>
 <div style="text-align: center;"><a href="https://pipette.dpa-newslab.com/pipette/#/doc/{{dpa_id_link}}" target="_blank">{{dpa_id}}</a></div>
 <nav aria-label="...">
   <ul class="pager">
@@ -63,20 +63,20 @@ NEX for {{ dpa_id }}
                                 <mark><a class="tooltips" style="background-color:{{row["color"]}}" target="_blank" href="https://wikidata.org/wiki/{{row["uri"]}}"
                                     >{{row["text"]}}<span>
                                         {%- if row["confidence"]=="No confidence found" -%}
-                                            {{row["confidence"]}}, {{row["label"]}}
+                                            {{row["confidence"]}}, {{row["label"]}}, <i>{{row["category"]}}</i>
                                         {%- elif row["confidence"]>1 -%}
-                                            {{row["confidence"]}}⬆, {{row["label"]}}
+                                            {{row["confidence"]}}⬆, {{row["label"]}}, <i>{{row["category"]}}</i>
                                         {%- elif row["confidence"]>0 -%}
-                                            {{row["confidence"]}}⇧, {{row["label"]}}
+                                            {{row["confidence"]}}⇧, {{row["label"]}}, <i>{{row["category"]}}</i>
                                         {%- elif row["confidence"]<0 -%}
-                                            {{row["confidence"]}}⇩, {{row["label"]}}
+                                            {{row["confidence"]}}⇩, {{row["label"]}}, <i>{{row["category"]}}</i>
                                         {%- elif row["confidence"]<1 -%}
-                                            {{row["confidence"]}}⬇, {{row["label"]}}
+                                            {{row["confidence"]}}⬇, {{row["label"]}}, <i>{{row["category"]}}</i>
                                         {%- endif -%}
                                         </span></a></mark>
                             {%- elif row["status"]=="entity-uri" -%}
-                                <a class="tooltips" style="border: 4px solid {{row["color"]}}"> 
-                                {{row["text"]}}<span>{{row["confidence"]}}, {{row["label"]}}</span></a>
+                                <a class="tooltips" style="border: 4px solid, {{row["color"]}}"> 
+                                {{row["text"]}}<span>{{row["confidence"]}}, {{row["label"]}}, <i>{{row["category"]}}</i></span></a>
                             {%- endif -%}
                         {% endfor %}
                     </div>
@@ -88,5 +88,5 @@ NEX for {{ dpa_id }}
 </div>
 {% endblock content %}
 {% block footer %}
-&copy; <a style="color: white" href="https://github.com/gobitodic/hug-minimal-server" target="_blank">Alex Gaus</a>&nbsp;&amp;&nbsp;<a style="color: white" href="https://github.com/dpa-newslab/" target="_blank">dpa-newslab</a>
+&copy; <a style="color:white" href="https://github.com/gobitodic/hug-minimal-server" target="_blank">Alex Gaus</a>&nbsp;&amp;&nbsp;<a style="color: white" href="https://github.com/dpa-newslab/" target="_blank">dpa-newslab</a>
 {% endblock footer %}

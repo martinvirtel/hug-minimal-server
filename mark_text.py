@@ -34,6 +34,7 @@ def mark_text (text_output,tools):
             start,end,surface, confidence, entity_id
             from found_entities  where
             tool_id=:tool_id and dpa_id=:dpa_id_id
+            order by start asc
             """,tool_id=tool_id,dpa_id_id=dpa_id_id))
         confidence_list=[]
         for entity_confidence in entities:
@@ -69,14 +70,15 @@ def mark_text (text_output,tools):
             information=list(database.query(
                 """
                 select
-                uri,label,labelfromsurface, extra
+                uri,label,labelfromsurface, extra, category
                 from entity  where
                 rowid=:entity_id
                 """,entity_id=entity_id))[0]
             entity["uri"]=information["uri"]
             entity["label"]=information["label"]
             entity["labelfromsurface"]=information["labelfromsurface"]
-            entity["extra"]=information["extra"]
+            entity["extra"]=information["extra"],
+            entity["category"]=information["category"]
         y=0
         text_list=[]
         for x in range(0,length):
@@ -111,7 +113,8 @@ def mark_text (text_output,tools):
                     "uri":uri,
                     "confidence":confidence,
                     "label":label,
-                    "color":color
+                    "color":color,
+                    "category":entities[x]["category"]
                     })
             if uri == None:
                 text_list.append({
@@ -119,7 +122,8 @@ def mark_text (text_output,tools):
                     "text":entity_element,
                     "confidence":confidence,
                     "label":label,
-                    "color":color
+                    "color":color,
+                    "category":entities[x]["category"]
                     })
             y=entities[x]["end"]
 
