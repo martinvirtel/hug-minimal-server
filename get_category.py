@@ -37,8 +37,12 @@ for uri_ in uris:
             x=2
 
         # Location:
-        url_location= "".join(("https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=ASK%20%7B%20wd%3A",uri,"%20wdt%3AP31%2Fwdt%3AP279*%20wd%3AQ1496967%2Cwd%3AQ82794%2Cwd%3AQ618123%7D"))
-        response_location = session.get(url_location)
+        # auch moeglich: https://www.wikidata.org/wiki/Q2221906 Geographicl Point
+        # url_location= "".join(("https://query.wikidata.org/bigdata/namespace/wdq/sparql?query=ASK%20%7B%20wd%3A",uri,"%20wdt%3AP31%2Fwdt%3AP279*%20wd%3AQ1496967%2Cwd%3AQ82794%2Cwd%3AQ618123%7D"))
+        # response_location = session.get(url_location)
+        response_location=session.get("https://query.wikidata.org/bigdata/namespace/wdq/sparql",params=dict(query="""
+            ASK { wd:%(uri)s wdt:P31/wdt:P279* wd:Q1496967 }
+        """ % **locals()))
         text_location=response_location.text
         y_location=text_location.find("true")
         if y_location > -1:

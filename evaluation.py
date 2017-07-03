@@ -73,7 +73,7 @@ def evaluation(dpa_id):
         text_dict.append(token_dict)
     output_evaluation={
         "text_dict":text_dict,
-        "output_dict":json.dumps(output_dict),
+        "output_dict":output_dict,
         "title":title
     }
     return (output_evaluation)

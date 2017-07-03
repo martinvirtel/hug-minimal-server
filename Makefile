@@ -25,7 +25,7 @@ hpa-restart:
 	hpa stop-task $$(hpa list-tasks | grep -B6 -A1 nex-live | sed -n 1p)
 
 docker-run:
-	docker run --publish 8000:8000 --name=nex_compare_server --rm nex:live
+	docker run --publish 8001:8000 --name=nex_compare_server --rm nex:live
 
 
 SESSION=nex-proxy
@@ -33,3 +33,5 @@ SESSION=nex-proxy
 remote:
 	expect -c 'spawn ssh werkzeugkasten ; send "tmux attach-session -t $(SESSION) || tmux new-session -A -c ~ -t $(SESSION)\r"; interact '
 	
+logs:
+	hpa show-log nex-live
