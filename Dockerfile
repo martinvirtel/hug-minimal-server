@@ -9,6 +9,7 @@ EXPOSE 8000
 WORKDIR /app
 COPY . /app
 
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt && \
+    python -c 'import nltk; nltk.download("punkt")'
 
 CMD ["waitress-serve", "--port=8000",  "server_compare:__hug_wsgi__"]
