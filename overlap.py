@@ -53,9 +53,10 @@ def overlap(dpa_id,value):
             end_2=entry_2["end"]
             entity_id_2=entry_2["entity_id"]
             if start==start_2 and end==end_2 and entity_id==entity_id_2:
-                entity_info=list(database.query("select uri, label from entity where rowid=:entity_id",entity_id=entity_id_2))
+                entity_info=list(database.query("select uri, label, category from entity where rowid=:entity_id",entity_id=entity_id_2))
                 uri=entity_info[0]["uri"]
                 label=entity_info[0]["label"]
+                category=entity_info[0]["category"]
                 key="%s_%s"%(start,end)
                 entity_dict={key:{
                     "start":start,
@@ -63,6 +64,7 @@ def overlap(dpa_id,value):
                     "entity_id":entity_id,
                     "uri":uri,
                     "label":label,
+                    "category":category,
                     "counter":x,
                     "tool":tool_entry
                 }}
@@ -98,6 +100,7 @@ def overlap(dpa_id,value):
             "text":entity_element,
             "uri":final_overlap[x]["uri"],
             "label":final_overlap[x]["label"],
+            "category":final_overlap[x]["category"],
             "tool":final_overlap[x]["tool"]
             })
         y=final_overlap[x]["end"]

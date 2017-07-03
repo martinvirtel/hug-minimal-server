@@ -29,6 +29,15 @@ Evaluation for {{dpa_id}}
     <li><a href="{{PREFIX}}/nex/{{next_dpa_id["post_dpa_id"]}}/evaluation">Next Text &gt;&gt;</a></li>
   </ul>
 </nav>
+{% if slugline %}
+<div> <strong>dpa-keywords ("slugline"):</strong>
+    {% for keyword in slugline %}
+        <mark style="background-color:yellow;border: 2px solid grey">{{keyword}}</mark><span>&nbsp;</span>
+    {% endfor %}
+</div>
+{% else %}
+<div> <span style="font-size: small"> no slugline </span></div>
+{% endif %}
 {% endblock caption %}
 
       {% block content_h %}

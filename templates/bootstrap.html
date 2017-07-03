@@ -44,6 +44,7 @@
 <div class="jumbotron">
   <div class="container">
     {% block caption %}
+
     {% endblock caption %}
     <!--<p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>-->
   </div>
@@ -68,12 +69,13 @@
   </table>
   </div>
   <p>&nbsp;</p>
-  <p>&nbsp;</p>
+    <a href="https://www.wikidata.org"target="_blank"><img src="{{PREFIX}}/static/Wikidata_Stamp_RecL_ight.png" alt="powered by wikidata"  style="display: block; margin-left: auto; margin-right: auto;" width="20%" height="20%"></a>
 <footer 
   class="panel-footer"
-  style="background-color: #1a1a1a">
+  style="background-color: #1a1a1a">  
+  
     {% block footer %}
-    {% endblock footer %}    
+    {% endblock footer %}
 </footer> 
 <!--/.container -->
 

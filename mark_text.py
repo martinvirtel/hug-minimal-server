@@ -88,7 +88,7 @@ def mark_text (text_output,tools):
             if entities[x]["labelfromsurface"]==0:
                 label= entities[x]["label"]
             else:
-                label= "no label found"
+                label= "no label"
             if tool == tools[0]:
                 color= "yellow"
             elif tool == tools[1]:
@@ -102,9 +102,9 @@ def mark_text (text_output,tools):
             try:
                 confidence=round((entities[x]["confidence"]-mean)/stdev,3)
             except TypeError:
-                confidence = "No confidence found"
+                confidence = "No confidence"
             except ZeroDivisionError:
-                confidence = "No confidence found"
+                confidence = "No confidence"
             uri=entities[x]["uri"]
             if uri != None:
                 text_list.append({

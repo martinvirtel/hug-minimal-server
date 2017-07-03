@@ -22,7 +22,7 @@ def evaluation(dpa_id):
     title=text_list[0]["title"]
     entity_list=list(database.query("""
             select 
-            id,start,end,confidence,tools,label,uri,extra
+            id,start,end,confidence,category,tools,label,uri,extra
             from entities_view 
             where dpa_id =:dpa_id_id
             order by start asc""",dpa_id_id=dpa_id))
@@ -33,6 +33,7 @@ def evaluation(dpa_id):
                         {"start":entity["start"],
                         "end":entity["end"],
                         "confidence":entity["confidence"],
+                        "category":entity["category"],
                         "label":entity["label"],
                         "uri":entity["uri"],
                         "extra":json.dumps(entity["extra"])
@@ -46,6 +47,7 @@ def evaluation(dpa_id):
                         {"start":entity["start"],
                         "end":entity["end"],
                         "confidence":entity["confidence"],
+                        "category":entity["category"],
                         "label":entity["label"],
                         "uri":entity["uri"],
                         "extra":json.dumps(entity["extra"])

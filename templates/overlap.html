@@ -44,7 +44,6 @@ Overlap for {{dpa_id}}
 </nav>
 {% if slugline %}
 <div> <strong>dpa-keywords ("slugline"):</strong>
-    {{ slugline|pprint }}
     {% for keyword in slugline %}
         <mark style="background-color:{{output_overlap["color"]}};border: 2px solid grey">{{keyword}}</mark><span>&nbsp;</span>
     {% endfor %}
@@ -61,7 +60,16 @@ Overlap for {{dpa_id}}
                                 {{item["text"]}}
                             {%- elif item["status"]=="entity" -%}
                                 <mark><a class="tooltips" style="background-color:{{output_overlap["color"]}}" target="_blank" href="https://wikidata.org/wiki/{{item["uri"]}}"
-                                    >{{item["text"]}}<span>{{item["label"]}}, found by:
+                                    >{{item["text"]}}<span>{{item["label"]}}&nbsp;
+                                            {%- if item["category"]=="location" -%}
+                                            📍
+                                            {%- elif item["category"]=="person" -%}
+                                            🚶
+                                            {%- elif item["category"]=="organisation" -%}
+                                            🏛
+                                            {%- else -%}
+                                            <i>no category</i>
+                                            {%- endif -%}, found by:
                                         {% for tool in item["tool"] %}
                                         {{tool[0:2]}} 
                                         {% endfor %}
