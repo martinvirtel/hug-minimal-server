@@ -16,6 +16,11 @@ _HERE=os.path.split(__file__)[0]
 templates=jinja2.Environment(loader=jinja2.FileSystemLoader(os.path.join(_HERE,"templates")))
 
 
+# Sessions
+
+
+
+
 
 @hug.static("/static")
 def static_dirs() :
@@ -25,9 +30,20 @@ def static_dirs() :
 
 @hug.get("/hello/{who}/",output=hug.output_format.html)
 @hug.cli()
-def hello(age : int ,who=None) :
+def hello(request, age : int ,who=None) :
+    session=request.context["session"]
+    session["counter"]=session.get("counter",0)+1
     return templates.get_template("hello.html").render(**locals())
 
 
+# Set up session store
+
+from hug.middleware import SessionMiddleware
+from hug.store import InMemoryStore
+
+session_store = InMemoryStore()
+__hug__.http.add_middleware(SessionMiddleware(session_store, cookie_name='session',cookie_secure=False))
+
+
 if __name__=="__main__" :
-    hug.API(__name__,os.path.split(__file__)[1]).cli()
+   api(os.path.split(__file__)[1]).cli()
