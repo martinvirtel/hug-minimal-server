@@ -32,7 +32,7 @@ def static_dirs() :
 @hug.cli()
 def hello(session : hug.directives.session, age : int ,who=None) :
     session["counter"]=session.get("counter",0)+1
-    print(session)
+    pid=os.getpid()
     return templates.get_template("hello.html").render(**locals())
 
 
@@ -42,8 +42,9 @@ def hello(session : hug.directives.session, age : int ,who=None) :
 
 from hug.middleware import SessionMiddleware
 from hug.store import InMemoryStore
+from sqlitestore import SqliteStore
 
-session_store = InMemoryStore()
+session_store = SqliteStore("./sessions.sqlite")
 __hug__.http.add_middleware(SessionMiddleware(session_store, cookie_name='play-test',cookie_secure=False))
 
 
