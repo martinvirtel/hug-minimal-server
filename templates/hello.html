@@ -6,6 +6,19 @@
 
 <p> Process # {{ pid }} </p>
 
+<form action="/answer" method="POST" target="ergebnis">
+<input type="submit">
+<br/>
+<textarea name="textarea">
+
+</textarea>
+<br>
+<input type=checkbox name=janein> Ja/Nein<br/>
+</form>
+
 <img src="/static/smiley.png">
+
+<iframe name="ergebnis" style="width:200px; height: 300px">
+</iframe>
 {% endblock content %}
 

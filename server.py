@@ -32,10 +32,14 @@ def static_dirs() :
 @hug.cli()
 def hello(session : hug.directives.session, age : int ,who=None) :
     session["counter"]=session.get("counter",0)+1
-    pid=os.getpid()
     return templates.get_template("hello.html").render(**locals())
 
 
+@hug.post("/answer")
+def answer(body) :
+    import pprint
+    pprint.pprint("Body is:"+repr(body))
+    return { "length" : len(body["textarea"]) }
 
 
 # Set up session store
